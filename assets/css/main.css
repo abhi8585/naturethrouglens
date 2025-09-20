@@ -1,3 +1,71 @@
+/* Sidebar overlay for mobile navmenu */
+@media (max-width: 1199px) {
+  .navmenu.navmenu-open {
+    left: 0;
+    top: 0;
+    width: 300px;
+    height: 100vh;
+    background: var(--nav-mobile-background-color);
+    z-index: 99999;
+    box-shadow: 2px 0 12px rgba(0,0,0,0.12);
+    display: block !important;
+    overflow-y: auto;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  body.navmenu-open {
+    overflow: hidden;
+  }
+  .navmenu.navmenu-open::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 300px;
+    width: calc(100vw - 300px);
+    height: 100vh;
+    background: rgba(0,0,0,0.4);
+    z-index: 99998;
+    pointer-events: auto;
+  }
+}
+/* Sidebar open state for mobile navmenu */
+@media (max-width: 1199px) {
+  .header {
+    left: -100%;
+    transition: left 0.3s;
+    width: 300px;
+    background: var(--background-color);
+    border-right: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+    min-width: 200px;
+    z-index: 997;
+  }
+  .header.header-show {
+    left: 0;
+  }
+  .navmenu {
+    position: relative;
+    width: 100%;
+    background: transparent;
+    box-shadow: none;
+    height: auto;
+    z-index: 9997;
+    transition: none;
+  }
+  .navmenu.navmenu-open {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 300px;
+    height: 100vh;
+    background: var(--nav-mobile-background-color);
+    z-index: 9998;
+    box-shadow: 2px 0 12px rgba(0,0,0,0.08);
+    transition: left 0.3s;
+    display: block !important;
+  }
+}
 /**
 * Template Name: MyResume
 * Template URL: https://bootstrapmade.com/free-html-bootstrap-template-my-resume/
@@ -1499,4 +1567,14 @@ section,
 .page-btn:focus {
   outline: none;
   box-shadow: 0 0 0 3px rgba(0,123,255,0.4);
+}
+
+
+/* Hide Plyr error messages */
+.plyr__error,
+.plyr--video .plyr__poster,
+.plyr__controls__item[role="alert"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
 }
