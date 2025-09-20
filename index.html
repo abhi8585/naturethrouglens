@@ -317,7 +317,8 @@
           </div>
 
           <div class="col-lg-8">
-            <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
+            <!-- <form  method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="200"> -->
+              <form onsubmit="showPopup(); return false;" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
               <div class="row gy-4">
 
                 <div class="col-md-6">
@@ -343,28 +344,20 @@
                 </div>
 
                 <div class="col-md-12 text-center">
-                  <div class="loading">Loading</div>
-                  <div class="error-message"></div>
-                  <div class="sent-message">Your message has been sent. Thank you!</div>
+                  <!-- Removed loading, error-message, sent-message for pure alert UX -->
 
                     <button type="submit" onclick="return validateContactForm();">Send Message</button>
                     <script>
-                      function validateContactForm() {
-                        var name = document.querySelector('input[name="name"]').value.trim();
-                        var email = document.querySelector('input[name="email"]').value.trim();
-                        var phone = document.querySelector('input[name="phone"]').value.trim();
-                        if (!name || !email || !phone) {
-                          alert("Name, email, phone can't be empty.");
-                          return false;
+                      document.addEventListener('DOMContentLoaded', function() {
+                        var btn = document.querySelector('button[type="submit"]');
+                        if (btn) {
+                          btn.onclick = function(e) {
+                            e.preventDefault();
+                            alert("I'll get back to you at the earliest");
+                          };
                         }
-                        return true;
-                      }
+                      });
                     </script>
-                  <script>
-                    function showPopup() {
-                      alert("I'll get back to you at the earliest");
-                    }
-                  </script>
                 </div>
 
               </div>
