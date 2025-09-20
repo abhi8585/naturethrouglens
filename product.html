@@ -7,6 +7,8 @@
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
   <link href="assets/css/main.css" rel="stylesheet">
+  <!-- Plyr.js CSS -->
+  <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
 </head>
 <body>
   <header class="header d-flex flex-column justify-content-center">
@@ -77,5 +79,16 @@
     </div>
   </footer>
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Plyr.js -->
+  <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Plyr.js initialization for product video(s)
+    if (window.Plyr) {
+      // Add selectors for product videos if/when present
+    }
+  });
+  </script>
 </body>
 </html>

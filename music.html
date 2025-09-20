@@ -7,6 +7,8 @@
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
   <link href="assets/css/main.css" rel="stylesheet">
+  <!-- Plyr.js CSS -->
+  <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
 </head>
 <body>
   <header class="header d-flex flex-column justify-content-center">
@@ -34,31 +36,31 @@
 
           <!-- Music Videos from music.json -->
           <div class="col-lg-6 col-md-8 mb-4 mx-auto">
-            <video class="img-fluid w-100" controls muted autoplay>
+            <video id="music-plyr-1" class="img-fluid plyr w-100" playsinline controls>
               <source src="https://storage.googleapis.com/naturethroughlens/Music%20Videos%20/BHULA%20NA%20.mp4" type="video/mp4">
               Your browser does not support the video tag.
             </video>
           </div>
           <div class="col-lg-6 col-md-8 mb-4 mx-auto">
-            <video class="img-fluid w-100" controls muted autoplay>
+            <video id="music-plyr-2" class="img-fluid plyr w-100" playsinline controls>
               <source src="https://storage.googleapis.com/naturethroughlens/Music%20Videos%20/Dilli-Ka-Maal-Starring-Shilpa-Kaul-Latest-song_1080p.mp4" type="video/mp4">
               Your browser does not support the video tag.
             </video>
           </div>
           <div class="col-lg-6 col-md-8 mb-4 mx-auto">
-            <video class="img-fluid w-100" controls muted autoplay>
+            <video id="music-plyr-3" class="img-fluid plyr w-100" playsinline controls>
               <source src="https://storage.googleapis.com/naturethroughlens/Music%20Videos%20/KHUDA%20JI%20.mp4" type="video/mp4">
               Your browser does not support the video tag.
             </video>
           </div>
           <div class="col-lg-6 col-md-8 mb-4 mx-auto">
-            <video class="img-fluid w-100" controls muted autoplay>
+            <video id="music-plyr-4" class="img-fluid plyr w-100" playsinline controls>
               <source src="https://storage.googleapis.com/naturethroughlens/Music%20Videos%20/Kalakaar-Dr-Drop-Official-Music-Video-2024_1080p.mp4" type="video/mp4">
               Your browser does not support the video tag.
             </video>
           </div>
           <div class="col-lg-6 col-md-8 mb-4 mx-auto">
-            <video class="img-fluid w-100" controls muted autoplay>
+            <video id="music-plyr-5" class="img-fluid plyr w-100" playsinline controls>
               <source src="https://storage.googleapis.com/naturethroughlens/Music%20Videos%20/Yeh-Pyaar-Nahi-Toh-Kya-Hai-Yasser-Desai_1080p.mp4" type="video/mp4">
               Your browser does not support the video tag.
             </video>
@@ -84,5 +86,19 @@
     </div>
   </footer>
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Plyr.js -->
+  <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Plyr.js initialization for music videos
+    if (window.Plyr) {
+      ['#music-plyr-1', '#music-plyr-2', '#music-plyr-3', '#music-plyr-4', '#music-plyr-5'].forEach(sel => {
+        const el = document.querySelector(sel);
+        if (el) new Plyr(el);
+      });
+    }
+  });
+  </script>
 </body>
 </html>

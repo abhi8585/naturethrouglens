@@ -7,6 +7,8 @@
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
   <link href="assets/css/main.css" rel="stylesheet">
+  <!-- Plyr.js CSS -->
+  <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
 </head>
 <body>
   <header class="header d-flex flex-column justify-content-center">
@@ -43,37 +45,37 @@
             <div class="row gy-4">
                 <!-- Wedding Videos from wedding-video.json -->
                 <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-video">
-                  <video class="img-fluid" controls muted autoplay>
+                  <video id="wedding-plyr-1" class="img-fluid plyr" playsinline controls>
                     <source src="https://storage.googleapis.com/naturethroughlens/Wedding%20/Films%20/ASHNA%20%26%20SHRIDHAR%20.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                   </video>
                 </div>
                 <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-video">
-                  <video class="img-fluid" controls muted autoplay>
+                  <video id="wedding-plyr-2" class="img-fluid plyr" playsinline controls>
                     <source src="https://storage.googleapis.com/naturethroughlens/Wedding%20/Films%20/Anshika%20%26%20Gautam%20Trailer%20(Going%20Banana).mp4" type="video/mp4">
                     Your browser does not support the video tag.
                   </video>
                 </div>
                 <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-video">
-                  <video class="img-fluid" controls muted autoplay>
+                  <video id="wedding-plyr-3" class="img-fluid plyr" playsinline controls>
                     <source src="https://storage.googleapis.com/naturethroughlens/Wedding%20/Films%20/Anushka%20%26%20Abhinav%20Trailer.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                   </video>
                 </div>
                 <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-video">
-                  <video class="img-fluid" controls muted autoplay>
+                  <video id="wedding-plyr-4" class="img-fluid plyr" playsinline controls>
                     <source src="https://storage.googleapis.com/naturethroughlens/Wedding%20/Films%20/MEHUL%20%26%20MANEET.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                   </video>
                 </div>
                 <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-video">
-                  <video class="img-fluid" controls muted autoplay>
+                  <video id="wedding-plyr-5" class="img-fluid plyr" playsinline controls>
                     <source src="https://storage.googleapis.com/naturethroughlens/Wedding%20/Films%20/Shiv%20%26%20Arya%20Trailer.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                   </video>
                 </div>
                 <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-video">
-                  <video class="img-fluid" controls muted autoplay>
+                  <video id="wedding-plyr-6" class="img-fluid plyr" playsinline controls>
                     <source src="https://storage.googleapis.com/naturethroughlens/Wedding%20/Films%20/Vanshika%20%26%20Sarthak%20Trailer.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                   </video>
@@ -140,18 +142,27 @@
     </div>
   </footer>
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script>
-// Ensure tab highlighting works with Bootstrap's tab events
-document.addEventListener('DOMContentLoaded', function() {
-  var tabButtons = document.querySelectorAll('#weddingTab .nav-link');
-  tabButtons.forEach(function(btn) {
-    btn.addEventListener('shown.bs.tab', function() {
-      tabButtons.forEach(function(b) { b.classList.remove('active'); });
-      this.classList.add('active');
+  <!-- Plyr.js -->
+  <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Ensure tab highlighting works with Bootstrap's tab events
+    var tabButtons = document.querySelectorAll('#weddingTab .nav-link');
+    tabButtons.forEach(function(btn) {
+      btn.addEventListener('shown.bs.tab', function() {
+        tabButtons.forEach(function(b) { b.classList.remove('active'); });
+        this.classList.add('active');
+      });
     });
-  });
 
-});
-</script>
+    // Plyr.js initialization for all wedding videos
+    if (window.Plyr) {
+      ['#wedding-plyr-1', '#wedding-plyr-2', '#wedding-plyr-3', '#wedding-plyr-4', '#wedding-plyr-5', '#wedding-plyr-6'].forEach(sel => {
+        const el = document.querySelector(sel);
+        if (el) new Plyr(el);
+      });
+    }
+  });
+  </script>
 </body>
 </html>
