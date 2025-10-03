@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Travel Gallery</title>
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/css/main.css" rel="stylesheet">
+  <!-- Plyr.js CSS -->
+  <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+</head>
+<body>
+  <header class="header d-flex flex-column justify-content-center">
+    <nav class="navmenu">
+      <ul>
+        <li><a href="index.html"><i class="bi bi-house navicon"></i><span>Home</span></a></li>
+        <li><a href="#" class="active"><i class="bi bi-images navicon"></i><span>Travel Gallery</span></a></li>
+      </ul>
+    </nav>
+  </header>
+  <nav aria-label="breadcrumb" class="container mt-3">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="index.html#portfolio-filters">Home</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Travel</li>
+    </ol>
+  </nav>
+  <main class="main">
+    <section class="section">
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Travel Gallery</h2>
+        <p>Explore cinematic journeys and breathtaking landscapes from around the world</p>
+      </div>
+      <div class="container">
+        <ul class="nav nav-tabs mb-4" id="travelTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="videos-tab" data-bs-toggle="tab" data-bs-target="#videos" type="button" role="tab">Videos</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="images-tab" data-bs-toggle="tab" data-bs-target="#images" type="button" role="tab">Images</button>
+          </li>
+        </ul>
+        <div class="tab-content" id="travelTabContent">
+          <div class="tab-pane fade show active" id="videos" role="tabpanel">
+            <div class="row gy-4">
+              <!-- Travel Videos from travel_video.json -->
+              <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-video">
+                <video id="travel-plyr-1" class="img-fluid plyr" playsinline controls autoplay muted>
+                  <source src="https://storage.googleapis.com/naturethroughlens/Travel/Films%20/HAVE%20YOU%20FINAL%20HR.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+              <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-video">
+                <video id="travel-plyr-2" class="img-fluid plyr" playsinline controls autoplay muted>
+                  <source src="https://storage.googleapis.com/naturethroughlens/Travel/Films%20/Into%20the%20Wild%20Zanskar's%20Untouched%20Beauty%20%20Cinematic%20Travel%20%20NATURETHROUGHLENS%20-%20Naturethrough_%20lens%20(1080p%2C%20h264%2C%20youtube).mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+              <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-video">
+                <video id="travel-plyr-3" class="img-fluid plyr" playsinline controls autoplay muted>
+                  <source src="https://storage.googleapis.com/naturethroughlens/Travel/Films%20/Spiti%20%20Travel%20video%20%20Cinematic%20%20Himachal%20Pradesh%20-%20Naturethrough_%20lens%20(1080p%2C%20h264%2C%20youtube).mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+              <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-video">
+                <video id="travel-plyr-4" class="img-fluid plyr" playsinline controls autoplay muted>
+                  <source src="https://storage.googleapis.com/naturethroughlens/Travel/Films%20/zanskar.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="images" role="tabpanel">
+            <div class="row gy-4">
+              <!-- Hardcoded Travel Images from travel_photo.json -->
+              <div class="col-lg-4 col-md-6 mb-4"><img src="https://storage.googleapis.com/naturethroughlens/Travel/Pictures/Copy%20of%20NTL03743.jpg" class="img-fluid" alt="Travel 1"></div>
+              <div class="col-lg-4 col-md-6 mb-4"><img src="https://storage.googleapis.com/naturethroughlens/Travel/Pictures/DJI_0077.jpg" class="img-fluid" alt="Travel 2"></div>
+              <div class="col-lg-4 col-md-6 mb-4"><img src="https://storage.googleapis.com/naturethroughlens/Travel/Pictures/DJI_0093-Pano.jpg" class="img-fluid" alt="Travel 3"></div>
+              <div class="col-lg-4 col-md-6 mb-4"><img src="https://storage.googleapis.com/naturethroughlens/Travel/Pictures/DJI_0791-Pano.jpg" class="img-fluid" alt="Travel 4"></div>
+              <div class="col-lg-4 col-md-6 mb-4"><img src="https://storage.googleapis.com/naturethroughlens/Travel/Pictures/NTL00461.jpg" class="img-fluid" alt="Travel 5"></div>
+              <div class="col-lg-4 col-md-6 mb-4"><img src="https://storage.googleapis.com/naturethroughlens/Travel/Pictures/NTL00474.jpg" class="img-fluid" alt="Travel 6"></div>
+              <div class="col-lg-4 col-md-6 mb-4"><img src="https://storage.googleapis.com/naturethroughlens/Travel/Pictures/NTL00481.jpg" class="img-fluid" alt="Travel 7"></div>
+              <div class="col-lg-4 col-md-6 mb-4"><img src="https://storage.googleapis.com/naturethroughlens/Travel/Pictures/NTL00524.jpg" class="img-fluid" alt="Travel 8"></div>
+              <div class="col-lg-4 col-md-6 mb-4"><img src="https://storage.googleapis.com/naturethroughlens/Travel/Pictures/NTL00532.jpg" class="img-fluid" alt="Travel 9"></div>
+              <div class="col-lg-4 col-md-6 mb-4"><img src="https://storage.googleapis.com/naturethroughlens/Travel/Pictures/NTL00763.jpg" class="img-fluid" alt="Travel 10"></div>
+              <div class="col-lg-4 col-md-6 mb-4"><img src="https://storage.googleapis.com/naturethroughlens/Travel/Pictures/NTL01261.jpg" class="img-fluid" alt="Travel 11"></div>
+              <div class="col-lg-4 col-md-6 mb-4"><img src="https://storage.googleapis.com/naturethroughlens/Travel/Pictures/NTL01285.jpg" class="img-fluid" alt="Travel 12"></div>
+              <div class="col-lg-4 col-md-6 mb-4"><img src="https://storage.googleapis.com/naturethroughlens/Travel/Pictures/NTL01426-01.jpg" class="img-fluid" alt="Travel 13"></div>
+              <div class="col-lg-4 col-md-6 mb-4"><img src="https://storage.googleapis.com/naturethroughlens/Travel/Pictures/NTL01738.jpg" class="img-fluid" alt="Travel 14"></div>
+              <div class="col-lg-4 col-md-6 mb-4"><img src="https://storage.googleapis.com/naturethroughlens/Travel/Pictures/NTL01742(1).jpg" class="img-fluid" alt="Travel 15"></div>
+              <div class="col-lg-4 col-md-6 mb-4"><img src="https://storage.googleapis.com/naturethroughlens/Travel/Pictures/NTL02243.jpg" class="img-fluid" alt="Travel 16"></div>
+              <div class="col-lg-4 col-md-6 mb-4"><img src="https://storage.googleapis.com/naturethroughlens/Travel/Pictures/NTL02524.jpg" class="img-fluid" alt="Travel 17"></div>
+              <div class="col-lg-4 col-md-6 mb-4"><img src="https://storage.googleapis.com/naturethroughlens/Travel/Pictures/NTL02802.jpg" class="img-fluid" alt="Travel 18"></div>
+              <div class="col-lg-4 col-md-6 mb-4"><img src="https://storage.googleapis.com/naturethroughlens/Travel/Pictures/NTL02812(1).jpg" class="img-fluid" alt="Travel 19"></div>
+              <div class="col-lg-4 col-md-6 mb-4"><img src="https://storage.googleapis.com/naturethroughlens/Travel/Pictures/NTL02819.jpg" class="img-fluid" alt="Travel 20"></div>
+              <div class="col-lg-4 col-md-6 mb-4"><img src="https://storage.googleapis.com/naturethroughlens/Travel/Pictures/NTL03030.jpg" class="img-fluid" alt="Travel 21"></div>
+              <div class="col-lg-4 col-md-6 mb-4"><img src="https://storage.googleapis.com/naturethroughlens/Travel/Pictures/NTL03185.jpg" class="img-fluid" alt="Travel 22"></div>
+              <div class="col-lg-4 col-md-6 mb-4"><img src="https://storage.googleapis.com/naturethroughlens/Travel/Pictures/NTL03701.jpg" class="img-fluid" alt="Travel 23"></div>
+              <div class="col-lg-4 col-md-6 mb-4"><img src="https://storage.googleapis.com/naturethroughlens/Travel/Pictures/NTL03848-1.jpg" class="img-fluid" alt="Travel 24"></div>
+              <div class="col-lg-4 col-md-6 mb-4"><img src="https://storage.googleapis.com/naturethroughlens/Travel/Pictures/NTL03942.jpg" class="img-fluid" alt="Travel 25"></div>
+              <div class="col-lg-4 col-md-6 mb-4"><img src="https://storage.googleapis.com/naturethroughlens/Travel/Pictures/NTL05066.jpg" class="img-fluid" alt="Travel 26"></div>
+              <div class="col-lg-4 col-md-6 mb-4"><img src="https://storage.googleapis.com/naturethroughlens/Travel/Pictures/NTL05136-Recovered.jpg" class="img-fluid" alt="Travel 27"></div>
+              <div class="col-lg-4 col-md-6 mb-4"><img src="https://storage.googleapis.com/naturethroughlens/Travel/Pictures/NTL05142.jpg" class="img-fluid" alt="Travel 28"></div>
+              <div class="col-lg-4 col-md-6 mb-4"><img src="https://storage.googleapis.com/naturethroughlens/Travel/Pictures/NTL05438.jpg" class="img-fluid" alt="Travel 29"></div>
+              <div class="col-lg-4 col-md-6 mb-4"><img src="https://storage.googleapis.com/naturethroughlens/Travel/Pictures/NTL05606.jpg" class="img-fluid" alt="Travel 30"></div>
+              <div class="col-lg-4 col-md-6 mb-4"><img src="https://storage.googleapis.com/naturethroughlens/Travel/Pictures/NTL09926.jpg" class="img-fluid" alt="Travel 31"></div>
+              <div class="col-lg-4 col-md-6 mb-4"><img src="https://storage.googleapis.com/naturethroughlens/Travel/Pictures/NTL09951.jpg" class="img-fluid" alt="Travel 32"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer id="footer" class="footer position-relative light-background">
+    <div class="container">
+      <h3 class="sitename">Rohan Saini</h3>
+      <p>Crafts stories that leap off the screen. Masters of playful chaos, turning ordinary scenes into unforgettable spectacles.</p>
+      <div class="social-links d-flex justify-content-center">
+        <a href="https://www.facebook.com/share/1BQfXbGTFW/?mibextid=wwXIfr" target="_blank"><i class="bi bi-facebook"></i></a>
+        <a href="https://x.com/Rohansaini101" target="_blank"><i class="bi bi-twitter-x"></i></a>
+        <a href="https://www.instagram.com/rohansainiphotography?igsh=MWFneGVhZmFxMnkxbg==" target="_blank"><i class="bi bi-instagram"></i></a>
+      </div>
+      <div class="container">
+        <div class="credits">
+          Developed with Love in  <a href="https://bootstrapmade.com/">INDIA
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- Plyr.js -->
+  <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Ensure tab highlighting works with Bootstrap's tab events
+    var tabButtons = document.querySelectorAll('#travelTab .nav-link');
+    tabButtons.forEach(function(btn) {
+      btn.addEventListener('shown.bs.tab', function() {
+        tabButtons.forEach(function(b) { b.classList.remove('active'); });
+        this.classList.add('active');
+      });
+    });
+    // Plyr.js initialization for all travel videos
+    if (window.Plyr) {
+      ['#travel-plyr-1', '#travel-plyr-2', '#travel-plyr-3', '#travel-plyr-4'].forEach(sel => {
+        const el = document.querySelector(sel);
+        if (el) new Plyr(el);
+      });
+    }
+  });
+  </script>
+</body>
+</html>
