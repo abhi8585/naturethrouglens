@@ -139,57 +139,13 @@
         this.classList.add('active');
       });
     });
-
-    // Load travel videos from travel_video.json
-    fetch('travel_video.json')
-      .then(response => response.json())
-      .then(videos => {
-        const container = document.getElementById('travel-videos-container');
-        container.innerHTML = '';
-        videos.forEach((video, idx) => {
-          const col = document.createElement('div');
-          col.className = 'col-lg-4 col-md-6 portfolio-item isotope-item filter-video';
-          const vid = document.createElement('video');
-          vid.id = `travel-plyr-${idx+1}`;
-          vid.className = 'img-fluid plyr';
-          vid.setAttribute('playsinline', '');
-          vid.setAttribute('controls', '');
-          vid.setAttribute('autoplay', '');
-          vid.setAttribute('muted', '');
-          const source = document.createElement('source');
-          source.src = video.url;
-          source.type = 'video/mp4';
-          vid.appendChild(source);
-          vid.innerHTML += 'Your browser does not support the video tag.';
-          col.appendChild(vid);
-          container.appendChild(col);
-        });
-        // Plyr.js initialization for all travel videos
-        if (window.Plyr) {
-          videos.forEach((_, idx) => {
-            const el = document.getElementById(`travel-plyr-${idx+1}`);
-            if (el) new Plyr(el);
-          });
-        }
+    // Plyr.js initialization for all travel videos
+    if (window.Plyr) {
+      ['#travel-plyr-1', '#travel-plyr-2', '#travel-plyr-3', '#travel-plyr-4'].forEach(sel => {
+        const el = document.querySelector(sel);
+        if (el) new Plyr(el);
       });
-
-    // Load travel images from travel_photo.json
-    fetch('travel_photo.json')
-      .then(response => response.json())
-      .then(images => {
-        const container = document.getElementById('travel-images-container');
-        container.innerHTML = '';
-        images.forEach((img, idx) => {
-          const col = document.createElement('div');
-          col.className = 'col-lg-4 col-md-6 mb-4';
-          const image = document.createElement('img');
-          image.src = img.url;
-          image.className = 'img-fluid';
-          image.alt = `Travel ${idx+1}`;
-          col.appendChild(image);
-          container.appendChild(col);
-        });
-      });
+    }
   });
   </script>
   <script>
