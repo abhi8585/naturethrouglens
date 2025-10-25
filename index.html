@@ -403,9 +403,29 @@
                   <label for="phone" class="form-label">Phone Number</label>
                   <input type="tel" name="phone" id="phone" class="form-control" placeholder="Phone Number" required>
                 </div>
+                <div class="col-md-6">
+                  <label for="service" class="form-label">Service</label>
+                  <select name="service" id="service" class="form-select">
+                    <option value="" selected disabled>Select a service</option>
+                    <option value="Wedding">Wedding</option>
+                    <option value="PreWedding">PreWedding</option>
+                    <option value="Music Ads">Music Ads</option>
+                    <option value="Documentary">Documentary</option>
+                    <option value="Ads">Ads</option>
+                    <option value="Products">Products</option>
+                  </select>
+                </div>
                 <div class="col-12">
+                  <div class="form-check mb-3">
+                      <input class="form-check-input" type="checkbox" value="" id="ai-generate">
+                    <label class="form-check-label" for="ai-generate">
+                      Generate enquiry message with <a href="https://replyai.in/" target="_blank" rel="noopener noreferrer">ReplyAI</a>
+                    </label>
+                  </div>
+                </div>
+                <div class="col-12" id="message-group" style="display:none;">
                   <label for="message" class="form-label">Message</label>
-                  <textarea class="form-control" name="message" id="message" rows="4" placeholder="Type your message here..." required></textarea>
+                  <textarea class="form-control" name="message" id="message" rows="4" placeholder="Type your message here..."></textarea>
                 </div>
                 <div class="col-12 text-center">
                   <button type="submit" class="btn btn-primary px-5 py-2" onclick="return validateContactForm();">Send Message</button>
@@ -415,10 +435,15 @@
                   var name = document.getElementById('name').value.trim();
                   var email = document.getElementById('email').value.trim();
                   var phone = document.getElementById('phone').value.trim();
-                  var message = document.getElementById('message').value.trim();
+                  var messageEl = document.getElementById('message');
+                  var message = messageEl ? messageEl.value.trim() : '';
                   var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                  if (!name || !email || !phone || !message) {
-                    alert('Please fill in all fields.');
+                  // Only require message when the message group is visible
+                  var msgGroup = document.getElementById('message-group');
+                  var messageRequired = msgGroup && msgGroup.style.display !== 'none';
+
+                  if (!name || !email || !phone || (messageRequired && !message)) {
+                    alert('Please fill in all required fields.');
                     return false;
                   }
                   if (!emailPattern.test(email)) {
@@ -517,6 +542,52 @@
   });
   </script>
 
+    <script>
+  // Pre-fill enquiry message based on selected service
+  (function() {
+    var templates = {
+      'Wedding': 'I am interested in your wedding photography services. Please share availability, packages and starting prices. We are planning for a wedding on [date] at [location].',
+      'PreWedding': 'Looking for a pre-wedding/couple shoot — please share session details, duration & pricing for [dates].',
+      'Music Ads': 'Looking for a cinematographer for a music video / ad — please share reel, day rate & timeline for the brief.',
+      'Documentary': 'Planning a short documentary — interested in discussing story, crew & budget.',
+      'Ads': 'Exploring ad production — please share recent work, pricing & turnaround for the brief.',
+      'Products': 'Need product photography for e-commerce — share samples, studio options & per-SKU pricing.'
+    };
+
+    function onServiceChange(e) {
+      var val = e && e.target ? e.target.value : (select ? select.value : '');
+      var msgEl = document.getElementById('message');
+      var msgGroup = document.getElementById('message-group');
+      var aiCheckbox = document.getElementById('ai-generate');
+      if (!msgEl || !msgGroup || !aiCheckbox) return;
+      if (aiCheckbox.checked) {
+        // Show message box and fill with template when AI generation is enabled
+        msgGroup.style.display = '';
+        // read current name and service to inject
+        var currentName = (document.getElementById('name') && document.getElementById('name').value) ? document.getElementById('name').value.trim() : '';
+        var serviceLabel = val || (select ? select.value : '');
+        var base = templates[val] || '';
+        var greeting = currentName ? ('Hello, my name is ' + currentName + '.\n\n') : 'Hello,\n\n';
+        var serviceNote = serviceLabel ? ('I am enquiring about ' + serviceLabel + '.\n\n') : '';
+        msgEl.value = greeting + serviceNote + base + '\n\nThanks,\n' + (currentName || '[Your Name]');
+      } else {
+        // Hide and clear message when AI generate is disabled
+        msgGroup.style.display = 'none';
+        msgEl.value = '';
+      }
+    }
+
+    var select = document.getElementById('service');
+    var aiCheckbox = document.getElementById('ai-generate');
+    if (select) select.addEventListener('change', onServiceChange);
+    if (aiCheckbox) {
+      aiCheckbox.addEventListener('change', function(e) {
+        onServiceChange({ target: select });
+      });
+    }
+  })();
+  </script>
+
   <!-- Navigation redirects -->
   <script>
   document.getElementById('wedding-tab').addEventListener('click', function () {
@@ -548,6 +619,17 @@
   <!-- jQuery form submission handler for contact form -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
   <script>
+  // Helper to escape user input before inserting into HTML email
+  function escapeHtml(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
   $(function() {
     // Attach to the contact form submit button click (form has class .php-email-form)
     $(document).on('click', '.php-email-form button[type="submit"]', function(e) {
@@ -565,28 +647,83 @@
       $btn.prop('disabled', true).text('Sending...');
 
       var toEmail = $form.find('#email').val() ? $form.find('#email').val().trim() : '';
-      var payload = {
-        to: toEmail || "abhi.sharma1114@gmail.com",
-        subject: "Thank You for Your Enquiry - Rohan Saini Photography",
-        html: `<!DOCTYPE html><html lang="en"><head>    <meta charset="UTF-8">    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <title>Thank You for Your Enquiry</title>    <style>        * {            margin: 0;            padding: 0;            box-sizing: border-box;        }        body {            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;            line-height: 1.6;            color: #333;            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);            padding: 20px;        }        .email-container {            max-width: 600px;            margin: 0 auto;            background: #ffffff;            border-radius: 16px;            overflow: hidden;            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);        }        .header {            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);            padding: 35px 30px;            text-align: center;            color: white;        }        .header h1 {            font-size: 32px;            font-weight: 700;            margin-bottom: 8px;            letter-spacing: -0.5px;        }        .header p {            font-size: 16px;            opacity: 0.95;            font-weight: 300;        }        .content {            padding: 30px;        }        .greeting {            font-size: 18px;            color: #333;            margin-bottom: 15px;            font-weight: 600;        }        .message {            font-size: 15px;            color: #555;            line-height: 1.7;            margin-bottom: 15px;        }        .services-list {            display: grid;            grid-template-columns: repeat(2, 1fr);            gap: 12px;            margin: 20px 0;        }        .service-item {            background: #f8f9fa;            padding: 12px;            border-radius: 8px;            text-align: center;            font-size: 14px;            color: #555;            transition: all 0.2s;            text-decoration: none;            display: block;            font-weight: 500;        }        .service-item:hover {            transform: translateY(-2px);            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);            background: #667eea;            color: white;        }        .cta-button {            display: inline-block;            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);            color: white;            padding: 12px 35px;            text-decoration: none;            border-radius: 50px;            font-weight: 600;            font-size: 15px;            margin: 15px 0;            transition: transform 0.2s, box-shadow 0.2s;        }        .cta-button:hover {            transform: translateY(-2px);            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);        }        .contact-info {            background: #f8f9fa;            padding: 20px;            border-radius: 8px;            margin-top: 20px;        }        .contact-info h3 {            font-size: 16px;            color: #333;            margin-bottom: 12px;            font-weight: 600;        }        .contact-detail {            margin: 8px 0;            font-size: 14px;            color: #555;        }        .contact-detail a {            color: #667eea;            text-decoration: none;            font-weight: 500;        }        .footer {            background: #2d3748;            color: #a0aec0;            text-align: center;            padding: 15px;            font-size: 13px;        }        .footer p {            margin: 3px 0;        }        @media (max-width: 600px) {            .services-list {                grid-template-columns: 1fr;            }            .header h1 {                font-size: 26px;            }            .content {                padding: 25px 20px;            }        }    </style></head><body>    <div class="email-container">        <div class="header">            <h1>Thank You! 📸</h1>            <p>Rohan Saini Photography</p>        </div>        <div class="content">            <div class="greeting">                Hello,            </div>            <div class="message">                Thank you for reaching out. I've received your enquiry and will respond within 24-48 hours with a customized proposal for your project.            </div>            <div class="services-list">                <a href="https://rohansainiphotography.com/#portfolio-filters" class="service-item">Wedding</a>                <a href="https://rohansainiphotography.com/#portfolio-filters" class="service-item">PreWedding</a>                <a href="https://rohansainiphotography.com/#portfolio-filters" class="service-item">Music Ads</a>                <a href="https://rohansainiphotography.com/#portfolio-filters" class="service-item">Documentary</a>                <a href="https://rohansainiphotography.com/#portfolio-filters" class="service-item">Ads</a>                <a href="https://rohansainiphotography.com/#portfolio-filters" class="service-item">Products</a>            </div>            <center>                <a href="https://rohansainiphotography.com" class="cta-button">View Portfolio</a>            </center>            <div class="contact-info">                <h3>Contact Information</h3>                <div class="contact-detail">                    Email: <a href="mailto:rohansainiphotography@gmail.com">rohansainiphotography@gmail.com</a>                </div>                <div class="contact-detail">                    Web: <a href="https://rohansainiphotography.com">rohansainiphotography.com</a>                </div>            </div>        </div>        <div class="footer">            <p>© 2025 Rohan Saini Photography</p>        </div>    </div></body></html>`
-      };
+    var name = $form.find('#name').val() ? $form.find('#name').val().trim() : '';
+    var phone = $form.find('#phone').val() ? $form.find('#phone').val().trim() : '';
+    var service = $form.find('#service').val() ? $form.find('#service').val().trim() : '';
+    var message = $form.find('#message').val() ? $form.find('#message').val().trim() : '';
 
-      $.ajax({
-        url: 'https://flask-app-495136972258.asia-south1.run.app/api/send-email',
-        method: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(payload),
-        success: function(resp) {
-          // Keep existing behaviour: call showPopup if defined
-          try { if (typeof showPopup === 'function') showPopup(); } catch(e) {}
-          // Single professional message
-          alert('Thank you. Your enquiry has been received — we will respond within 24–48 hours.');
-          $btn.prop('disabled', false).text(originalText);
-        },
-        error: function(xhr) {
-          alert('Failed to send confirmation email. Please try again later.');
-          $btn.prop('disabled', false).text(originalText);
+    var subjectLine = "New enquiry: " + (service || 'General') + " — " + (name || toEmail);
+
+    var htmlBody = `<!DOCTYPE html><html lang="en"><head>    <meta charset="UTF-8">    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <title>New Enquiry</title>    <style>        * {            margin: 0;            padding: 0;            box-sizing: border-box;        }        body {            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;            line-height: 1.6;            color: #333;            background: #f6f8fb;            padding: 20px;        }        .email-container {            max-width: 700px;            margin: 0 auto;            background: #ffffff;            border-radius: 12px;            overflow: hidden;            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.08);        }        .header {            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);            padding: 28px 24px;            text-align: center;            color: white;        }        .header h1 {            font-size: 22px;            font-weight: 700;            margin-bottom: 6px;        }        .content {            padding: 22px;        }        .row {            display: flex;            gap: 12px;            margin-bottom: 12px;        }        .label {            width: 140px;            font-weight: 600;
+      color: #444;
+    }
+    .value {            flex: 1;
+      color: #333;
+    }
+    .note {            margin-top: 18px;
+      font-size: 13px;
+      color: #666;
+    }
+    .footer {            background: #f2f4f8;
+      padding: 14px;            text-align: center;            font-size: 13px;            color: #666;        }
+    @media (max-width: 600px) { .label { width: 110px; } .header h1 { font-size: 18px; } }
+  </style></head><body><div class="email-container"><div class="header"><h1>New Enquiry</h1><p>Rohan Saini Photography</p></div><div class="content">`;
+
+    htmlBody += `<div class="row"><div class="label">Name</div><div class="value">${escapeHtml(name)}</div></div>`;
+    htmlBody += `<div class="row"><div class="label">Email</div><div class="value">${escapeHtml(toEmail)}</div></div>`;
+    htmlBody += `<div class="row"><div class="label">Phone</div><div class="value">${escapeHtml(phone)}</div></div>`;
+    htmlBody += `<div class="row"><div class="label">Service</div><div class="value">${escapeHtml(service)}</div></div>`;
+    htmlBody += `<div class="row"><div class="label">Message</div><div class="value">${escapeHtml(message || '(no message provided)')}</div></div>`;
+    htmlBody += `<div class="note">Received via website contact form.</div></div><div class="footer">© ${new Date().getFullYear()} Rohan Saini Photography</div></div></body></html>`;
+
+      // First: send a personalized thank-you email to the visitor (if email is provided)
+      var userEmail = toEmail;
+      function sendUserConfirmation(callback) {
+        if (!userEmail) return callback && callback(null);
+        var userSubject = 'Following up on your enquiry for — ' + (service || 'Service');
+
+        // Capitalize first letter of name only (leave rest as-is)
+        function capitalizeFirst(s) {
+          if (!s) return '';
+          s = s.trim();
+          return s.charAt(0).toUpperCase() + s.slice(1);
         }
+
+        // Provided HTML template — do not modify its contents except replace the two placeholders
+        var html_content = `<!DOCTYPE html><html lang='en'><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1.0'><title>We're on it!</title></head><body style='margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background-color:#fafafa;'><table role='presentation' width='100%' cellpadding='0' cellspacing='0' border='0'><tr><td align='center' style='padding:40px 20px;'><table role='presentation' width='560' cellpadding='0' cellspacing='0' border='0' style='background-color:#ffffff;max-width:560px;border:1px solid #e8e8e8;'><tr><td style='background-color:#667eea;height:4px;padding:0;'></td></tr><tr><td style='padding:40px 35px;'><table role='presentation' width='100%' cellpadding='0' cellspacing='0' border='0'><tr><td style='padding:0 0 20px 0;'><p style='font-size:32px;margin:0;line-height:1;'>📸</p></td></tr><tr><td style='padding:0 0 8px 0;'><h1 style='font-size:22px;font-weight:600;color:#1a1a1a;margin:0;letter-spacing:-0.3px;'>Hey [Client Name]!</h1></td></tr><tr><td style='padding:0 0 24px 0;'><p style='font-size:15px;color:#4a4a4a;line-height:1.6;margin:0;'>Got your message about <strong style='color:#1a1a1a;'>[Service Type]</strong>. Super excited to chat about your project!</p></td></tr><tr><td><table role='presentation' width='100%' cellpadding='0' cellspacing='0' border='0' style='background-color:#f7f8fa;border-left:3px solid #667eea;'><tr><td style='padding:18px 20px;'><p style='font-size:14px;color:#4a4a4a;margin:0;line-height:1.5;'><strong style='color:#1a1a1a;font-weight:600;'>What's next?</strong><br>I'll review everything and get back to you within 24-48 hours with all the details.</p></td></tr></table></td></tr><tr><td style='padding:28px 0 0 0;'><table role='presentation' width='100%' cellpadding='0' cellspacing='0' border='0'><tr><td style='border-top:1px solid #e8e8e8;'></td></tr></table></td></tr><tr><td style='padding:28px 0 0 0;'><p style='font-size:14px;color:#6a6a6a;line-height:1.6;margin:0;'>Can't wait to bring your vision to life!</p><p style='font-size:14px;color:#1a1a1a;line-height:1.6;margin:12px 0 0 0;font-weight:500;'>Rohan<br><span style='color:#6a6a6a;font-weight:400;font-size:13px;'>Through My Lens • India</span></p></td></tr><tr><td style='padding:24px 0 0 0;'><table role='presentation' cellpadding='0' cellspacing='0' border='0'><tr><td style='background-color:#667eea;padding:11px 24px;border-radius:4px;'><a href='https://rohansainiphotography.com' style='color:#ffffff;text-decoration:none;font-weight:500;font-size:14px;display:block;'>View My Work</a></td></tr></table></td></tr></table></td></tr><tr><td style='background-color:#f9f9f9;padding:20px 35px;border-top:1px solid #e8e8e8;'><table role='presentation' width='100%' cellpadding='0' cellspacing='0' border='0'><tr><td><p style='font-size:12px;color:#8a8a8a;margin:0;line-height:1.5;'><a href='mailto:rohansainiphotography@gmail.com' style='color:#667eea;text-decoration:none;'>rohansainiphotography@gmail.com</a><br><a href='https://rohansainiphotography.com' style='color:#8a8a8a;text-decoration:none;'>rohansainiphotography.com</a></p></td></tr></table></td></tr></table></td></tr></table></body></html>`;
+
+        // Inject only the two placeholders
+        var clientName = capitalizeFirst(name || '');
+        var serviceType = service || '';
+        var userHtml = html_content.replace(/\[Client Name\]/g, escapeHtml(clientName)).replace(/\[Service Type\]/g, escapeHtml(serviceType));
+
+        var userPayload = { to: userEmail, subject: userSubject, html: userHtml };
+        $.ajax({ url: 'https://flask-app-495136972258.asia-south1.run.app/api/send-email', method: 'POST', contentType: 'application/json', data: JSON.stringify(userPayload) })
+          .done(function() { callback && callback(null); })
+          .fail(function() { callback && callback(new Error('user-email-failed')); });
+      }
+
+      // Second: send admin notification (always send)
+      function sendAdminNotification(callback) {
+        var adminPayload = { to: 'abhi.sharma1114@gmail.com', subject: subjectLine, html: htmlBody };
+        $.ajax({ url: 'https://flask-app-495136972258.asia-south1.run.app/api/send-email', method: 'POST', contentType: 'application/json', data: JSON.stringify(adminPayload) })
+          .done(function() { callback && callback(null); })
+          .fail(function() { callback && callback(new Error('admin-email-failed')); });
+      }
+
+      // Run: send confirmation to user, then notify admin. Show a single alert on success.
+      sendUserConfirmation(function(userErr) {
+        // ignore userErr for UX but log to console
+        if (userErr) console.warn('User confirmation failed:', userErr);
+        sendAdminNotification(function(adminErr) {
+          if (typeof showPopup === 'function') try { showPopup(); } catch(e) {}
+          if (!adminErr) {
+            alert('Thank you. Your enquiry has been received — we will respond within 24–48 hours.');
+          } else {
+            alert('Your enquiry was received, but we failed to notify our team. Please try again later.');
+          }
+          $btn.prop('disabled', false).text(originalText);
+        });
       });
     });
   });
