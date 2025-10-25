@@ -426,8 +426,7 @@
                     return false;
                   }
                   // You can add more validation as needed
-                  alert("Thanks for reaching out! 🎉 I'll get back to you super soon! 🚀 Can't wait to chat! ✨");
-                  return false;
+                  return true;
                 }
                 </script>
               </div>
@@ -543,6 +542,53 @@
   });
   document.getElementById('travel-tab').addEventListener('click', function () {
     window.location.href = 'travel.html';
+  });
+  </script>
+
+  <!-- jQuery form submission handler for contact form -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script>
+  $(function() {
+    // Attach to the contact form submit button click (form has class .php-email-form)
+    $(document).on('click', '.php-email-form button[type="submit"]', function(e) {
+      e.preventDefault();
+      var $btn = $(this);
+      var $form = $btn.closest('form');
+      // run validation (validateContactForm shows alerts for invalid fields)
+      var isValid = true;
+      try { isValid = validateContactForm(); } catch (err) { isValid = false; }
+      if (!isValid) {
+        return;
+      }
+      // Disable button while sending
+      var originalText = $btn.text();
+      $btn.prop('disabled', true).text('Sending...');
+
+      var toEmail = $form.find('#email').val() ? $form.find('#email').val().trim() : '';
+      var payload = {
+        to: toEmail || "abhi.sharma1114@gmail.com",
+        subject: "Thank You for Your Enquiry - Rohan Saini Photography",
+        html: `<!DOCTYPE html><html lang="en"><head>    <meta charset="UTF-8">    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <title>Thank You for Your Enquiry</title>    <style>        * {            margin: 0;            padding: 0;            box-sizing: border-box;        }        body {            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;            line-height: 1.6;            color: #333;            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);            padding: 20px;        }        .email-container {            max-width: 600px;            margin: 0 auto;            background: #ffffff;            border-radius: 16px;            overflow: hidden;            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);        }        .header {            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);            padding: 35px 30px;            text-align: center;            color: white;        }        .header h1 {            font-size: 32px;            font-weight: 700;            margin-bottom: 8px;            letter-spacing: -0.5px;        }        .header p {            font-size: 16px;            opacity: 0.95;            font-weight: 300;        }        .content {            padding: 30px;        }        .greeting {            font-size: 18px;            color: #333;            margin-bottom: 15px;            font-weight: 600;        }        .message {            font-size: 15px;            color: #555;            line-height: 1.7;            margin-bottom: 15px;        }        .services-list {            display: grid;            grid-template-columns: repeat(2, 1fr);            gap: 12px;            margin: 20px 0;        }        .service-item {            background: #f8f9fa;            padding: 12px;            border-radius: 8px;            text-align: center;            font-size: 14px;            color: #555;            transition: all 0.2s;            text-decoration: none;            display: block;            font-weight: 500;        }        .service-item:hover {            transform: translateY(-2px);            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);            background: #667eea;            color: white;        }        .cta-button {            display: inline-block;            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);            color: white;            padding: 12px 35px;            text-decoration: none;            border-radius: 50px;            font-weight: 600;            font-size: 15px;            margin: 15px 0;            transition: transform 0.2s, box-shadow 0.2s;        }        .cta-button:hover {            transform: translateY(-2px);            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);        }        .contact-info {            background: #f8f9fa;            padding: 20px;            border-radius: 8px;            margin-top: 20px;        }        .contact-info h3 {            font-size: 16px;            color: #333;            margin-bottom: 12px;            font-weight: 600;        }        .contact-detail {            margin: 8px 0;            font-size: 14px;            color: #555;        }        .contact-detail a {            color: #667eea;            text-decoration: none;            font-weight: 500;        }        .footer {            background: #2d3748;            color: #a0aec0;            text-align: center;            padding: 15px;            font-size: 13px;        }        .footer p {            margin: 3px 0;        }        @media (max-width: 600px) {            .services-list {                grid-template-columns: 1fr;            }            .header h1 {                font-size: 26px;            }            .content {                padding: 25px 20px;            }        }    </style></head><body>    <div class="email-container">        <div class="header">            <h1>Thank You! 📸</h1>            <p>Rohan Saini Photography</p>        </div>        <div class="content">            <div class="greeting">                Hello,            </div>            <div class="message">                Thank you for reaching out. I've received your enquiry and will respond within 24-48 hours with a customized proposal for your project.            </div>            <div class="services-list">                <a href="https://rohansainiphotography.com/#portfolio-filters" class="service-item">Wedding</a>                <a href="https://rohansainiphotography.com/#portfolio-filters" class="service-item">PreWedding</a>                <a href="https://rohansainiphotography.com/#portfolio-filters" class="service-item">Music Ads</a>                <a href="https://rohansainiphotography.com/#portfolio-filters" class="service-item">Documentary</a>                <a href="https://rohansainiphotography.com/#portfolio-filters" class="service-item">Ads</a>                <a href="https://rohansainiphotography.com/#portfolio-filters" class="service-item">Products</a>            </div>            <center>                <a href="https://rohansainiphotography.com" class="cta-button">View Portfolio</a>            </center>            <div class="contact-info">                <h3>Contact Information</h3>                <div class="contact-detail">                    Email: <a href="mailto:rohansainiphotography@gmail.com">rohansainiphotography@gmail.com</a>                </div>                <div class="contact-detail">                    Web: <a href="https://rohansainiphotography.com">rohansainiphotography.com</a>                </div>            </div>        </div>        <div class="footer">            <p>© 2025 Rohan Saini Photography</p>        </div>    </div></body></html>`
+      };
+
+      $.ajax({
+        url: 'https://flask-app-495136972258.asia-south1.run.app/api/send-email',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(payload),
+        success: function(resp) {
+          // Keep existing behaviour: call showPopup if defined
+          try { if (typeof showPopup === 'function') showPopup(); } catch(e) {}
+          // Single professional message
+          alert('Thank you. Your enquiry has been received — we will respond within 24–48 hours.');
+          $btn.prop('disabled', false).text(originalText);
+        },
+        error: function(xhr) {
+          alert('Failed to send confirmation email. Please try again later.');
+          $btn.prop('disabled', false).text(originalText);
+        }
+      });
+    });
   });
   </script>
 
