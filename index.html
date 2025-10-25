@@ -563,13 +563,15 @@
       if (aiCheckbox.checked) {
         // Show message box and fill with template when AI generation is enabled
         msgGroup.style.display = '';
-        // read current name and service to inject
-        var currentName = (document.getElementById('name') && document.getElementById('name').value) ? document.getElementById('name').value.trim() : '';
-        var serviceLabel = val || (select ? select.value : '');
-        var base = templates[val] || '';
-        var greeting = currentName ? ('Hello, my name is ' + currentName + '.\n\n') : 'Hello,\n\n';
-        var serviceNote = serviceLabel ? ('I am enquiring about ' + serviceLabel + '.\n\n') : '';
-        msgEl.value = greeting + serviceNote + base + '\n\nThanks,\n' + (currentName || '[Your Name]');
+  // read current name and service to inject (capitalize first letter)
+  var currentNameRaw = (document.getElementById('name') && document.getElementById('name').value) ? document.getElementById('name').value.trim() : '';
+  var currentName = capitalizeFirst(currentNameRaw);
+  var serviceLabelRaw = val || (select ? select.value : '');
+  var serviceLabel = capitalizeFirst(serviceLabelRaw);
+  var base = templates[val] || '';
+  var greeting = currentName ? ('Hello, my name is ' + currentName + '.\n\n') : 'Hello,\n\n';
+  var serviceNote = serviceLabel ? ('I am enquiring about ' + serviceLabel + '.\n\n') : '';
+  msgEl.value = greeting + serviceNote + base + '\n\nThanks,\n' + (currentName || '[Your Name]');
       } else {
         // Hide and clear message when AI generate is disabled
         msgGroup.style.display = 'none';
@@ -630,6 +632,13 @@
       .replace(/'/g, '&#39;');
   }
 
+  // Helper to capitalize the first letter of a string (leave rest as-is)
+  function capitalizeFirst(s) {
+    if (!s) return '';
+    s = String(s).trim();
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  }
+
   $(function() {
     // Attach to the contact form submit button click (form has class .php-email-form)
     $(document).on('click', '.php-email-form button[type="submit"]', function(e) {
@@ -669,10 +678,10 @@
     @media (max-width: 600px) { .label { width: 110px; } .header h1 { font-size: 18px; } }
   </style></head><body><div class="email-container"><div class="header"><h1>New Enquiry</h1><p>Rohan Saini Photography</p></div><div class="content">`;
 
-    htmlBody += `<div class="row"><div class="label">Name</div><div class="value">${escapeHtml(name)}</div></div>`;
+  htmlBody += `<div class="row"><div class="label">Name</div><div class="value">${escapeHtml(capitalizeFirst(name))}</div></div>`;
     htmlBody += `<div class="row"><div class="label">Email</div><div class="value">${escapeHtml(toEmail)}</div></div>`;
     htmlBody += `<div class="row"><div class="label">Phone</div><div class="value">${escapeHtml(phone)}</div></div>`;
-    htmlBody += `<div class="row"><div class="label">Service</div><div class="value">${escapeHtml(service)}</div></div>`;
+  htmlBody += `<div class="row"><div class="label">Service</div><div class="value">${escapeHtml(capitalizeFirst(service))}</div></div>`;
     htmlBody += `<div class="row"><div class="label">Message</div><div class="value">${escapeHtml(message || '(no message provided)')}</div></div>`;
     htmlBody += `<div class="note">Received via website contact form.</div></div><div class="footer">© ${new Date().getFullYear()} Rohan Saini Photography</div></div></body></html>`;
 
@@ -705,7 +714,7 @@
 
       // Second: send admin notification (always send)
       function sendAdminNotification(callback) {
-        var adminPayload = { to: 'abhi.sharma1114@gmail.com', subject: subjectLine, html: htmlBody };
+        var adminPayload = { to: 'rohansainiphotography@gmail.com', subject: subjectLine, html: htmlBody };
         $.ajax({ url: 'https://flask-app-495136972258.asia-south1.run.app/api/send-email', method: 'POST', contentType: 'application/json', data: JSON.stringify(adminPayload) })
           .done(function() { callback && callback(null); })
           .fail(function() { callback && callback(new Error('admin-email-failed')); });
